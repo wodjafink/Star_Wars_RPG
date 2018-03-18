@@ -54,15 +54,26 @@ $(document).ready(function () {
     var starWarsCharacters = [obi, anakin, emperor, grievous];
 
     //Add characters to character space
-    $("#character-space").append(obi.element)
-    $("#character-space").append(anakin.element)
-    $("#character-space").append(emperor.element)
-    $("#character-space").append(grievous.element)
+    for (var i = 0; i < starWarsCharacters.length; i++)
+    {
+        $("#character-space").append(starWarsCharacters[i].element)
+    }
 
     //Set up click listener to click on a character card.  This selects the player's character
     $(".card").click(function(event) {
         console.log("Clicked a jedi");
         console.log(event.currentTarget.value);
+        for (var i = 0; i < starWarsCharacters.length; i++){
+            if (starWarsCharacters[i].name === event.currentTarget.value)
+            {
+                $("#your-character").append(starWarsCharacters[i].element);
+            }
+            else
+            {
+                $("#enemies-space").append(starWarsCharacters[i].element);
+            }
+        }
+        $("#character-space").empty();
     })
 })
 
