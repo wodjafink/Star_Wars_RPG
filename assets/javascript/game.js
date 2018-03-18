@@ -38,7 +38,7 @@ class Jedi {
     this.content.append(this.status)
   }
   updateStatus() {
-    this.status.text(this.health)
+    this.status.text("health: " + this.health);
   }
 }
 
@@ -53,6 +53,10 @@ $(document).ready(function () {
     //containing array
     var starWarsCharacters = [obi, anakin, emperor, grievous];
 
+    //Empty array for the enemies
+    var enemiesArray = [];
+
+    var defendingCharacter;
     //Add characters to character space
     for (var i = 0; i < starWarsCharacters.length; i++)
     {
@@ -61,19 +65,67 @@ $(document).ready(function () {
 
     //Set up click listener to click on a character card.  This selects the player's character
     $(".card").click(function(event) {
-        console.log("Clicked a jedi");
+        // console.log("Clicked a jedi");
+        console.log(event.currentTarget.parentElement.id );
         console.log(event.currentTarget.value);
-        for (var i = 0; i < starWarsCharacters.length; i++){
-            if (starWarsCharacters[i].name === event.currentTarget.value)
-            {
-                $("#your-character").append(starWarsCharacters[i].element);
+        // This condition determines if your character has been selected or not
+        if ($("#your-character").children().length === 0)
+        {        
+            for (var i = 0; i < starWarsCharacters.length; i++){
+                if (starWarsCharacters[i].name === event.currentTarget.value)
+                {
+                    $("#your-character").append(starWarsCharacters[i].element);
+                }
+                else
+                {
+                    $("#enemies-space").append(starWarsCharacters[i].element);
+                    enemiesArray.push(starWarsCharacters[i]);
+                }
             }
-            else
-            {
-                $("#enemies-space").append(starWarsCharacters[i].element);
-            }
+            $("#character-space").empty();
         }
-        $("#character-space").empty();
+        else if (event.currentTarget.parentElement.id === "enemies-space")
+        {
+            //No one is currently defending
+            if ($("#defender-space").children().length === 0)
+            {
+                //Get in here if the user has selected a character, this element must be in 'enemies-space'            
+                console.log("Want to attack " + event.currentTarget.value);
+                //Remove the character from the enemies array...this is SO CLUNKY
+                for(var i = 0; i < enemiesArray.length; i++)
+                {
+                    // Found the character that you want to attack
+                    if (enemiesArray[i].name === event.currentTarget.value)
+                    {
+                        $("#defender-space").empty();
+                        $("#defender-space").append(enemiesArray[i].element);
+                        defendingCharacter = enemiesArray[i];
+                        enemiesArray.splice(i, 1);
+                        //should always work to redraw the remaining enemies in the #enemies-space
+                        $("#enemies-space").empty();
+                        if (enemiesArray.length > 0)
+                        {
+                            for (var i = 0; i < enemiesArray.length; i++)
+                            {
+                                $("#enemies-space").append(enemiesArray[i].element);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // console.log(event)
+        }
+
+    })
+
+    $("#attack-button").click(function(event) {
+        // Only do something if there's a character defending
+        if ($("#defender-space").children().length > 0)
+        {
+            defendingCharacter.health--;
+            defendingCharacter.updateStatus();
+        }
     })
 })
 
