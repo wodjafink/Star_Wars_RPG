@@ -1,0 +1,38 @@
+body {
+	font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.col-3 {
+	/*width: 25%;*/
+}
+
+.heroBox {
+	position: relative;
+	text-align: center;
+	font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.heroT {
+	font-family: 'Kanit', sans-serif;
+    font-weight: 100;
+    text-transform: uppercase;
+    text-align: left;
+    /*color: yellow;*/
+}
+
+.card-image-top{
+
+}
+
+.card-header{
+/*	text-align: center;
+	position: absolute;
+	top: 10px;
+	left: 50%;*/
+}
