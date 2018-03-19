@@ -87,7 +87,8 @@ $(document).ready(function () {
                 }
                 else
                 {
-                    starWarsCharacters[i].element.attr('id', 'newId').appendTo("#enemies-space"); 
+                    starWarsCharacters[i].element.attr('style', 'background-color: red');
+                    starWarsCharacters[i].element.attr('id', 'newId').appendTo("#enemies-space");
                     enemiesArray.push(starWarsCharacters[i]);
                 }
             }
@@ -107,6 +108,7 @@ $(document).ready(function () {
                     // Found the character that you want to attack
                     if (enemiesArray[i].name === event.currentTarget.value)
                     {
+                        enemiesArray[i].element.attr('style', 'background-color: black; color: white');
                         enemiesArray[i].element.attr('id', 'newId').appendTo("#defender-space");
                         defendingCharacter = enemiesArray[i];
                         enemiesArray.splice(i, 1);
@@ -141,6 +143,8 @@ $(document).ready(function () {
             if (defendingCharacter.health <= 0)
             {
                 $("#defender-space").empty();
+                $("#your-attack-dialog").empty();
+                $("#enemy-attack-dialog").empty();
             }
 
             if (userCharacter.health <= 0)
