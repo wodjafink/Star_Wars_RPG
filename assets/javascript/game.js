@@ -1,3 +1,16 @@
+//Containing array, makes characters easy to manage
+var starWarsCharacters = [];
+
+//Empty array for the enemies, fills after user selects their character
+var enemiesArray = [];
+
+// Track if the game is over or not
+var gameOver = false;
+
+// These keep track of the two attacking characters
+var defendingCharacter;
+var userCharacter;
+
 class Jedi {
   //object template for jedi
   constructor(name, src, health, baseAttack, counterAttack) {
@@ -44,20 +57,15 @@ class Jedi {
 
 $(document).ready(function () {
 
-    // Create Characters
-    var obi = new Jedi("Obi-Wan Kenobi", "assets/images/obi.jpg", 100, 10, 20);
-    var anakin = new Jedi("Anakin Skywalker", "assets/images/anakin.jpg", 100, 10, 20);
-    var emperor = new Jedi("Sheev Palpatine", "assets/images/emperor.jpg", 100, 10, 20);
-    var grievous = new Jedi("General Grievous", "assets/images/grievous.jpg", 100, 10, 20);
+    // Create Characters, each is class Jedi
+    var obi = new Jedi("Obi-Wan Kenobi", "assets/images/obi.jpg", 120, 6, 20);
+    var anakin = new Jedi("Anakin Skywalker", "assets/images/anakin.jpg", 100, 7, 30);
+    var emperor = new Jedi("Sheev Palpatine", "assets/images/emperor.jpg", 150, 8, 40);
+    var grievous = new Jedi("General Grievous", "assets/images/grievous.jpg", 180, 9, 50);
 
-    //containing array
-    var starWarsCharacters = [obi, anakin, emperor, grievous];
+    starWarsCharacters = [obi, anakin, emperor, grievous];
 
-    //Empty array for the enemies
-    var enemiesArray = [];
-
-    var defendingCharacter;
-    //Add characters to character space
+    //Add characters to character array
     for (var i = 0; i < starWarsCharacters.length; i++)
     {
         $("#character-space").append(starWarsCharacters[i].element)
@@ -75,9 +83,11 @@ $(document).ready(function () {
                 if (starWarsCharacters[i].name === event.currentTarget.value)
                 {
                     $("#your-character").append(starWarsCharacters[i].element);
+                    userCharacter = starWarsCharacters[i];
                 }
                 else
                 {
+                    // starWarsCharacters[i].attr('id', 'newId') 
                     $("#enemies-space").append(starWarsCharacters[i].element);
                     enemiesArray.push(starWarsCharacters[i]);
                 }
@@ -86,6 +96,7 @@ $(document).ready(function () {
         }
         else if (event.currentTarget.parentElement.id === "enemies-space")
         {
+            console.log("clicked " + event.currentTarget.value)
             //No one is currently defending
             if ($("#defender-space").children().length === 0)
             {
@@ -97,10 +108,12 @@ $(document).ready(function () {
                     // Found the character that you want to attack
                     if (enemiesArray[i].name === event.currentTarget.value)
                     {
+
                         $("#defender-space").empty();
                         $("#defender-space").append(enemiesArray[i].element);
                         defendingCharacter = enemiesArray[i];
                         enemiesArray.splice(i, 1);
+                        // event.currentTarget.attr("id", "newId").appendTo("#defender-space");
                         //should always work to redraw the remaining enemies in the #enemies-space
                         $("#enemies-space").empty();
                         if (enemiesArray.length > 0)
@@ -120,11 +133,31 @@ $(document).ready(function () {
     })
 
     $("#attack-button").click(function(event) {
-        // Only do something if there's a character defending
-        if ($("#defender-space").children().length > 0)
+        // Only do something if there's a character defending & user's character still has health points
+        if (($("#defender-space").children().length > 0) && (!gameOver))
         {
-            defendingCharacter.health--;
+            // Defending character loses health by baseAttack
+            defendingCharacter.health -= userCharacter.currentAttack;
             defendingCharacter.updateStatus();
+
+            // User's character loses health by counterAttack
+            userCharacter.health -= defendingCharacter.counterAttack;
+            userCharacter.updateStatus();
+
+            // Add baseAttack rate to currentAttack
+            userCharacter.currentAttack += userCharacter.baseAttack;
+
+            // Defending character is dead, so this will empty the div
+            if (defendingCharacter.health <= 0)
+            {
+                console.log("Should empty the div...")
+                $("#defender-space").empty();
+            }
+
+            if (userCharacter.health <= 0)
+            {
+                gameOver = true;
+            }
         }
     })
 })
