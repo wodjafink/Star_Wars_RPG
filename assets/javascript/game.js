@@ -68,7 +68,7 @@ $(document).ready(function () {
     //Add characters to character array
     for (var i = 0; i < starWarsCharacters.length; i++)
     {
-        $("#character-space").append(starWarsCharacters[i].element)
+        starWarsCharacters[i].element.attr('id', 'newId').appendTo("#character-space");
     }
 
     //Set up click listener to click on a character card.  This selects the player's character
@@ -108,25 +108,11 @@ $(document).ready(function () {
                     if (enemiesArray[i].name === event.currentTarget.value)
                     {
                         enemiesArray[i].element.attr('id', 'newId').appendTo("#defender-space");
-                        // $("#defender-space").empty();
-                        // $("#defender-space").append(enemiesArray[i].element);
                         defendingCharacter = enemiesArray[i];
                         enemiesArray.splice(i, 1);
-                        // // event.currentTarget.attr("id", "newId").appendTo("#defender-space");
-                        // //should always work to redraw the remaining enemies in the #enemies-space
-                        // $("#enemies-space").empty();
-                        // if (enemiesArray.length > 0)
-                        // {
-                        //     for (var i = 0; i < enemiesArray.length; i++)
-                        //     {
-                        //         $("#enemies-space").append(enemiesArray[i].element);
-                        //     }
-                        // }
                     }
                 }
             }
-
-            // console.log(event)
         }
 
     })
