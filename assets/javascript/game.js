@@ -82,13 +82,12 @@ $(document).ready(function () {
             for (var i = 0; i < starWarsCharacters.length; i++){
                 if (starWarsCharacters[i].name === event.currentTarget.value)
                 {
-                    $("#your-character").append(starWarsCharacters[i].element);
+                    starWarsCharacters[i].element.attr('id','newId').appendTo("#your-character");
                     userCharacter = starWarsCharacters[i];
                 }
                 else
                 {
-                    // starWarsCharacters[i].attr('id', 'newId') 
-                    $("#enemies-space").append(starWarsCharacters[i].element);
+                    starWarsCharacters[i].element.attr('id', 'newId').appendTo("#enemies-space"); 
                     enemiesArray.push(starWarsCharacters[i]);
                 }
             }
@@ -108,21 +107,21 @@ $(document).ready(function () {
                     // Found the character that you want to attack
                     if (enemiesArray[i].name === event.currentTarget.value)
                     {
-
-                        $("#defender-space").empty();
-                        $("#defender-space").append(enemiesArray[i].element);
+                        enemiesArray[i].element.attr('id', 'newId').appendTo("#defender-space");
+                        // $("#defender-space").empty();
+                        // $("#defender-space").append(enemiesArray[i].element);
                         defendingCharacter = enemiesArray[i];
                         enemiesArray.splice(i, 1);
-                        // event.currentTarget.attr("id", "newId").appendTo("#defender-space");
-                        //should always work to redraw the remaining enemies in the #enemies-space
-                        $("#enemies-space").empty();
-                        if (enemiesArray.length > 0)
-                        {
-                            for (var i = 0; i < enemiesArray.length; i++)
-                            {
-                                $("#enemies-space").append(enemiesArray[i].element);
-                            }
-                        }
+                        // // event.currentTarget.attr("id", "newId").appendTo("#defender-space");
+                        // //should always work to redraw the remaining enemies in the #enemies-space
+                        // $("#enemies-space").empty();
+                        // if (enemiesArray.length > 0)
+                        // {
+                        //     for (var i = 0; i < enemiesArray.length; i++)
+                        //     {
+                        //         $("#enemies-space").append(enemiesArray[i].element);
+                        //     }
+                        // }
                     }
                 }
             }
