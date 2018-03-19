@@ -58,10 +58,10 @@ class Jedi {
 $(document).ready(function () {
 
     // Create Characters, each is class Jedi
-    var obi = new Jedi("Obi-Wan Kenobi", "assets/images/obi.jpg", 120, 6, 20);
-    var anakin = new Jedi("Anakin Skywalker", "assets/images/anakin.jpg", 100, 7, 30);
-    var emperor = new Jedi("Sheev Palpatine", "assets/images/emperor.jpg", 150, 8, 40);
-    var grievous = new Jedi("General Grievous", "assets/images/grievous.jpg", 180, 9, 50);
+    var obi = new Jedi("Obi-Wan Kenobi", "assets/images/obi.jpg", 120, 6, 5);
+    var anakin = new Jedi("Anakin Skywalker", "assets/images/anakin.jpg", 100, 7, 6);
+    var emperor = new Jedi("Sheev Palpatine", "assets/images/emperor.jpg", 150, 8, 7);
+    var grievous = new Jedi("General Grievous", "assets/images/grievous.jpg", 180, 9, 8);
 
     starWarsCharacters = [obi, anakin, emperor, grievous];
 
@@ -121,10 +121,15 @@ $(document).ready(function () {
         // Only do something if there's a character defending & user's character still has health points
         if (($("#defender-space").children().length > 0) && (!gameOver))
         {
+            $("#your-attack-dialog").empty();
+            $("#enemy-attack-dialog").empty();
+
             // Defending character loses health by baseAttack
+            $("#your-attack-dialog").text("You attack " + defendingCharacter.name + " for " + userCharacter.currentAttack);
             defendingCharacter.health -= userCharacter.currentAttack;
             defendingCharacter.updateStatus();
 
+            $("#enemy-attack-dialog").text(defendingCharacter.name + " attacks you for " + defendingCharacter.counterAttack);
             // User's character loses health by counterAttack
             userCharacter.health -= defendingCharacter.counterAttack;
             userCharacter.updateStatus();
@@ -135,7 +140,6 @@ $(document).ready(function () {
             // Defending character is dead, so this will empty the div
             if (defendingCharacter.health <= 0)
             {
-                console.log("Should empty the div...")
                 $("#defender-space").empty();
             }
 
