@@ -47,11 +47,11 @@ class Jedi {
     //character status
     this.status = $("<h4>");
     this.status.addClass("heroS");
-    this.status.text("health: " + this.health);
+    this.status.text(this.health);
     this.content.append(this.status)
   }
   updateStatus() {
-    this.status.text("health: " + this.health);
+    this.status.text(this.health);
   }
 }
 
@@ -87,7 +87,7 @@ $(document).ready(function () {
                 }
                 else
                 {
-                    starWarsCharacters[i].element.attr('style', 'background-color: red');
+                    starWarsCharacters[i].element.attr('style', 'background-color: red; border-color: black');
                     starWarsCharacters[i].element.attr('id', 'newId').appendTo("#enemies-space");
                     enemiesArray.push(starWarsCharacters[i]);
                 }
@@ -147,6 +147,7 @@ $(document).ready(function () {
                 $("#enemy-attack-dialog").empty();
             }
 
+            // You died!
             if (userCharacter.health <= 0)
             {
                 gameOver = true;

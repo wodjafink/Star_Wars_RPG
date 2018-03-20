@@ -1,8 +1,8 @@
 body {
 	font-family: 'Kanit', sans-serif;
     font-weight: 500;
-    text-transform: uppercase;
     text-align: left;
+    font-size: 24px;
 }
 
 .col-3 {
@@ -14,15 +14,16 @@ body {
 	text-align: center;
 	font-family: 'Kanit', sans-serif;
     font-weight: 500;
-    text-transform: uppercase;
-    text-align: left;
+    font-size: 14px;
+    text-align: center;
+    border-width: 2px;
+    border-color: green;
 }
 
 .heroT {
 	font-family: 'Kanit', sans-serif;
-    font-weight: 100;
-    text-transform: uppercase;
-    text-align: left;
+    font-weight: 500;
+    text-align: center;
     /*color: yellow;*/
 }
 
