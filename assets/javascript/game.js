@@ -11,7 +11,11 @@ var gameOver = false;
 var defendingCharacter;
 var userCharacter;
 
+var obi, anakin, emperor, grievous;
+
 class Jedi {
+
+
   //object template for jedi
   constructor(name, src, health, baseAttack, counterAttack) {
     this.name = name;
@@ -55,14 +59,15 @@ class Jedi {
   }
 }
 
+
 $(document).ready(function () {
 
     // Create Characters, each is class Jedi
-    var obi = new Jedi("Obi-Wan Kenobi", "assets/images/obi.jpg", 120, 6, 5);
-    var anakin = new Jedi("Anakin Skywalker", "assets/images/anakin.jpg", 100, 7, 6);
-    var emperor = new Jedi("Sheev Palpatine", "assets/images/emperor.jpg", 150, 8, 7);
-    var grievous = new Jedi("General Grievous", "assets/images/grievous.jpg", 180, 9, 8);
-
+    obi = new Jedi("Obi-Wan Kenobi", "assets/images/obi.jpg", 120, 6, 7);
+    anakin = new Jedi("Anakin Skywalker", "assets/images/anakin.jpg", 100, 7, 8);
+    emperor = new Jedi("Sheev Palpatine", "assets/images/emperor.jpg", 150, 8, 9);
+    grievous = new Jedi("General Grievous", "assets/images/grievous.jpg", 180, 9, 10);
+    
     starWarsCharacters = [obi, anakin, emperor, grievous];
 
     //Add characters to character array
@@ -92,7 +97,7 @@ $(document).ready(function () {
                     enemiesArray.push(starWarsCharacters[i]);
                 }
             }
-            $("#character-space").empty();
+            // $("#character-space").empty();
         }
         else if (event.currentTarget.parentElement.id === "enemies-space")
         {
@@ -142,17 +147,43 @@ $(document).ready(function () {
             // Defending character is dead, so this will empty the div
             if (defendingCharacter.health <= 0)
             {
-                $("#defender-space").empty();
+                // $("#defender-space").empty();
+                defendingCharacter.element.attr('id', 'newId').appendTo('#empty-div');
+                defendingCharacter.element.removeAttr('style');
                 $("#your-attack-dialog").empty();
                 $("#enemy-attack-dialog").empty();
+
+                if (enemiesArray.length === 0)
+                {
+                    $("#your-attack-dialog").text("You won!!!!  GAME OVER!!!!");
+                    gameOver = true;
+                }
+                else
+                {
+                    $("#your-attack-dialog").text("You have defeated " + defendingCharacter.name + ", you can choose to fight another enemy");
+                }
             }
 
             // You died!
             if (userCharacter.health <= 0)
             {
+                $("#your-attack-dialog").empty();
+                $("#enemy-attack-dialog").empty();
+
+                $("#your-attack-dialog").text("You died....Game over...");
                 gameOver = true;
+            }
+
+            if (gameOver)
+            {
+                $("#enemy-attack-dialog").append($('<input type="button" id="restart-button" value="Restart"/>'));
+                    $("#restart-button").click(function(event) {
+                        location.reload();
+
+                    })
             }
         }
     })
+
 })
 
